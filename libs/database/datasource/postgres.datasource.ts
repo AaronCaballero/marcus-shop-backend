@@ -8,7 +8,12 @@ const configService = new ConfigService();
 
 export const dataSource = new DataSource({
   type: 'postgres',
-  url: configService.get('POSTGRES_URI'),
+  host: configService.get('DATABASE_HOST'),
+  port: configService.get('DATABASE_PORT'),
+  username: configService.get('DATABASE_USER'),
+  password: configService.get('DATABASE_PASSWORD'),
+  database: configService.get('DATABASE_NAME'),
+  url: configService.get('DATABASE_URL'),
   entities: ['{dist/,}src/**/*.entity.js'],
   migrations: ['{dist/,}src/migrations/*.js'],
   namingStrategy: new SnakeCaseNamingStrategy(),
