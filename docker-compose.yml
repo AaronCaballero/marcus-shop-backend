@@ -16,8 +16,8 @@ services:
       - DATABASE_PASSWORD=postgres
       - DATABASE_NAME=marcus_shop
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
       - ./src/migrations:/usr/src/app/src/migrations:rw
 
   postgres:
