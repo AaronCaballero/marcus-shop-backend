@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   CreateDateColumn,
   DeleteDateColumn,
@@ -6,22 +7,26 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class isTimestampableEntity {
+export class TimestampableEntity {
+  @ApiProperty()
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
+  @ApiProperty()
   @UpdateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 
+  @ApiProperty()
   @DeleteDateColumn({
     type: 'timestamp',
     nullable: true,
+    default: null,
   })
   deletedAt: Date;
 }
