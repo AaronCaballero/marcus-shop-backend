@@ -28,5 +28,5 @@ export class TimestampableEntity {
     nullable: true,
     default: null,
   })
-  deletedAt: Date;
+  deletedAt?: Date;
 }
