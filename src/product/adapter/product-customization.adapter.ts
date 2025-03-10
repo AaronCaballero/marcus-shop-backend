@@ -5,6 +5,7 @@ import { ProductAdapter } from './product.adapter';
 export class ProductCustomizationAdapter {
   static async toDto(
     customization: ProductCustomization,
+    includeProduct: boolean = false,
   ): Promise<ProductCustomizationDto> {
     return new ProductCustomizationDto({
       id: customization.id,
@@ -14,9 +15,10 @@ export class ProductCustomizationAdapter {
       type: customization.type,
       stock: customization.stock,
       isRequired: customization.isRequired,
-      product: (await customization.product)
-        ? await ProductAdapter.toDto(await customization.product)
-        : undefined,
+      product:
+        includeProduct && (await customization.product)
+          ? await ProductAdapter.toDto(await customization.product)
+          : undefined,
       createdAt: customization.createdAt,
       updatedAt: customization.updatedAt,
       deletedAt: customization.deletedAt,
@@ -25,9 +27,12 @@ export class ProductCustomizationAdapter {
 
   static toDtos(
     products: ProductCustomization[],
+    includeProduct: boolean = false,
   ): Promise<ProductCustomizationDto[]> {
     return Promise.all(
-      products.map(async (product) => await this.toDto(product)),
+      products.map(
+        async (product) => await this.toDto(product, includeProduct),
+      ),
     );
   }
 }

@@ -1,8 +1,15 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { NumericTransformer, TimestampableEntity } from 'libs/database';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ProductCustomizationType } from '../enum/product-customization.enum';
 import { Product } from './product.entity';
+import { ProhibitedCustomization } from './prohibited-customization.entity';
 
 @Entity('product_customizations')
 export class ProductCustomization extends TimestampableEntity {
@@ -56,4 +63,11 @@ export class ProductCustomization extends TimestampableEntity {
     onDelete: 'CASCADE',
   })
   product: Product;
+
+  @ManyToMany(
+    () => ProhibitedCustomization,
+    (prohibitedCustomization) => prohibitedCustomization.customizations,
+    { lazy: true }
+  )
+  prohibitedCustomizations: ProhibitedCustomization[];
 }
