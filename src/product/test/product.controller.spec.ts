@@ -5,13 +5,13 @@ import { ProductDto } from '../dto/product.dto';
 import { ProductController } from '../product.controller';
 import { ProductCustomizationService } from '../service/product-customization.service';
 import { ProductService } from '../service/product.service';
+import { ProhibitedCustomizationService } from '../service/prohibited-customization.service';
 import { CreateProductDtoBuilder } from './builder/create-product-dto.builder';
 import { ProductDtoBuilder } from './builder/product-dto.builder';
 
 describe('ProductController', () => {
   let controller: ProductController;
   let service: ProductService;
-  let customizationService: ProductCustomizationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,6 +27,10 @@ describe('ProductController', () => {
         },
         {
           provide: ProductCustomizationService,
+          useValue: {},
+        },
+        {
+          provide: ProhibitedCustomizationService,
           useValue: {},
         },
       ],

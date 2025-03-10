@@ -1,11 +1,14 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateProductCustomizationDto } from './dto/create-product-customization.dto';
 import { CreateProductDto } from './dto/create-product.dto';
+import { CreateProhibitedCustomizationDto } from './dto/create-prohibited-customization.dto';
 import { ProductCustomizationDto } from './dto/product-customization.dto';
 import { ProductDto } from './dto/product.dto';
+import { ProhibitedCustomizationDto } from './dto/prohibited-customization.dto';
 import { ProductCustomizationService } from './service/product-customization.service';
 import { ProductService } from './service/product.service';
+import { ProhibitedCustomizationService } from './service/prohibited-customization.service';
 
 @ApiTags('product')
 @Controller('product')
@@ -13,6 +16,7 @@ export class ProductController {
   constructor(
     private readonly service: ProductService,
     private readonly customizationService: ProductCustomizationService,
+    private readonly prohibitedCustomizationService: ProhibitedCustomizationService,
   ) {}
 
   @Post()
@@ -39,6 +43,52 @@ export class ProductController {
     return this.service.getAll();
   }
 
+  @Post('prohibited-customization')
+  @ApiOperation({ summary: 'Create a new prohibited customization' })
+  @ApiResponse({
+    status: 201,
+    description: 'The prohibited customization has been successfully created.',
+    type: ProductCustomizationDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  createProhibitedCustomization(
+    @Body() createProhibitedCustomization: CreateProhibitedCustomizationDto,
+  ): Promise<any> {
+    return this.prohibitedCustomizationService.create(
+      createProhibitedCustomization,
+    );
+  }
+
+  @Get('prohibited-customization')
+  @ApiOperation({ summary: 'Get all existing prohibited customizations' })
+  @ApiResponse({
+    status: 200,
+    description: 'The prohibited customizations has been successfully gotten.',
+    type: ProhibitedCustomizationDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  getAllProhibitedCustomizations(): Promise<ProhibitedCustomizationDto[]> {
+    return this.prohibitedCustomizationService.getAll();
+  }
+
+  @Get('prohibited-customization-by-ids')
+  @ApiOperation({
+    summary: 'Get all existing prohibited customizations by customization ids',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The prohibited customizations has been successfully gotten.',
+    type: ProhibitedCustomizationDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  getAllProhibitedCustomizationsByIds(
+    @Query() query?: CreateProhibitedCustomizationDto,
+  ): Promise<ProhibitedCustomizationDto[]> {
+    return this.prohibitedCustomizationService.getByCustomizationIds(
+      query?.ids,
+    );
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get an existing product' })
   @ApiResponse({
@@ -51,9 +101,7 @@ export class ProductController {
     return this.service.getOne(id);
   }
 
-  /** Customization */
-
-  @Post(':productId/customization')
+  @Post(':id/customization')
   @ApiOperation({ summary: 'Create a new product customization' })
   @ApiResponse({
     status: 201,
@@ -62,7 +110,7 @@ export class ProductController {
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })
   createCustomization(
-    @Param('productId') productId: string,
+    @Param('id') productId: string,
     @Body() createProductCustomizationDto: CreateProductCustomizationDto,
   ): Promise<ProductCustomizationDto> {
     return this.customizationService.create(

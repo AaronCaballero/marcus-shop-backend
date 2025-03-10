@@ -6,6 +6,7 @@ import { ProhibitedCustomization } from './entity/prohibited-customization.entit
 import { ProductController } from './product.controller';
 import { ProductCustomizationService } from './service/product-customization.service';
 import { ProductService } from './service/product.service';
+import { ProhibitedCustomizationService } from './service/prohibited-customization.service';
 
 @Module({
   imports: [
@@ -16,7 +17,15 @@ import { ProductService } from './service/product.service';
     ]),
   ],
   controllers: [ProductController],
-  providers: [ProductService, ProductCustomizationService],
-  exports: [ProductService, ProductCustomizationService],
+  providers: [
+    ProductService,
+    ProductCustomizationService,
+    ProhibitedCustomizationService,
+  ],
+  exports: [
+    ProductService,
+    ProductCustomizationService,
+    ProhibitedCustomizationService,
+  ],
 })
 export class ProductModule {}

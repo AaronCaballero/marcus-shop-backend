@@ -34,6 +34,27 @@ export class ProductService {
           id,
         },
       }),
+      true,
     );
   }
+
+  // async getOneWithDetails(id: string): Promise<ProductDto> {
+  //   const product: Product = await this.repository.findOneOrFail({
+  //     where: {
+  //       id,
+  //     },
+  //   });
+
+  //   const customizationsIds = product.customizations
+  //     ? product.customizations.map((customization) => customization.id)
+  //     : undefined;
+
+  //   const prohibitedCustomizations =
+  //     customizationsIds &&
+  //     this.prohibitedCustomizationService.getByCustomizationIds(
+  //       customizationsIds,
+  //     );
+
+  //   return ProductAdapter.toDto(product, true);
+  // }
 }

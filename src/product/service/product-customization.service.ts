@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ProductCustomizationAdapter } from '../adapter/product-customization.adapter';
 import { CreateProductCustomizationDto } from '../dto/create-product-customization.dto';
+import { CreateProhibitedCustomizationDto } from '../dto/create-prohibited-customization.dto';
 import { ProductCustomizationDto } from '../dto/product-customization.dto';
 import { ProductCustomization } from '../entity/product-customization.entity';
 import { ProductService } from './product.service';
@@ -32,10 +33,6 @@ export class ProductCustomizationService {
     return this.getOne(productCustomization.id);
   }
 
-  async getAll(): Promise<ProductCustomizationDto[]> {
-    return ProductCustomizationAdapter.toDtos(await this.repository.find());
-  }
-
   async getOne(id: string): Promise<ProductCustomizationDto> {
     return ProductCustomizationAdapter.toDto(
       await this.repository.findOneOrFail({
@@ -43,6 +40,15 @@ export class ProductCustomizationService {
           id,
         },
       }),
+      true,
+    );
+  }
+
+  async getByIds(
+    customizations: CreateProhibitedCustomizationDto,
+  ): Promise<ProductCustomizationDto[]> {
+    return ProductCustomizationAdapter.toDtos(
+      await this.repository.findBy({ id: In(customizations.ids) }),
     );
   }
 }
