@@ -62,7 +62,7 @@ describe('ProductService', () => {
       expect(repository.create).toHaveBeenCalledWith(createProductDto);
       expect(repository.save).toHaveBeenCalledTimes(1);
       expect(repository.save).toHaveBeenCalledWith(product);
-      expect(service.getOne).toHaveBeenCalledWith(product.productId);
+      expect(service.getOne).toHaveBeenCalledWith(product.id);
     });
 
     it('should throw an error if save fails', async () => {
@@ -118,13 +118,13 @@ describe('ProductService', () => {
     it('should return a single product', async () => {
       jest.spyOn(repository, 'findOneOrFail').mockResolvedValue(product);
 
-      const response = await service.getOne(product.productId);
+      const response = await service.getOne(product.id);
 
       expect(response).toMatchObject(productDto);
       expect(response).toStrictEqual(productDto);
 
       expect(repository.findOneOrFail).toHaveBeenCalledWith({
-        where: { productId: product.productId },
+        where: { id: product.id },
       });
     });
 
@@ -136,7 +136,7 @@ describe('ProductService', () => {
       await expect(service.getOne('-')).rejects.toThrow(NotFoundException);
 
       expect(repository.findOneOrFail).toHaveBeenCalledWith({
-        where: { productId: '-' },
+        where: { id: '-' },
       });
     });
   });

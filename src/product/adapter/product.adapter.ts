@@ -4,7 +4,7 @@ import { Product } from '../entity/product.entity';
 export class ProductAdapter {
   static async toDto(product: Product): Promise<ProductDto> {
     return new ProductDto({
-      productId: product.productId,
+      id: product.id,
       name: product.name,
       description: product.description,
       price: product.price,

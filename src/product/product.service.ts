@@ -20,18 +20,18 @@ export class ProductService {
       }),
     );
 
-    return this.getOne(product.productId);
+    return this.getOne(product.id);
   }
 
   async getAll(): Promise<ProductDto[]> {
     return ProductAdapter.toDtos(await this.productRepository.find());
   }
 
-  async getOne(productId: string): Promise<ProductDto> {
+  async getOne(id: string): Promise<ProductDto> {
     return ProductAdapter.toDto(
       await this.productRepository.findOneOrFail({
         where: {
-          productId,
+          id,
         },
       }),
     );

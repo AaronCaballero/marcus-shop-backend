@@ -33,7 +33,7 @@ export class ProductController {
     return this.productService.getAll();
   }
 
-  @Get(':productId')
+  @Get(':id')
   @ApiOperation({ summary: 'Get an existing product' })
   @ApiResponse({
     status: 200,
@@ -41,7 +41,7 @@ export class ProductController {
     type: ProductDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })
-  getOne(@Param('productId') productId: string): Promise<ProductDto> {
-    return this.productService.getOne(productId);
+  getOne(@Param('id') id: string): Promise<ProductDto> {
+    return this.productService.getOne(id);
   }
 }

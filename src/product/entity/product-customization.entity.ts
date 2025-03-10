@@ -1,17 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { NumericTransformer, TimestampableEntity } from 'libs/database';
-import {
-  Column,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { ProductCategory, ProductStatus } from '../enum/product.enum';
-import { ProductCustomization } from './product-customization.entity';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ProductCustomizationType } from '../enum/product-customization.enum';
+import { Product } from './product.entity';
 
-@Entity('products')
-export class Product extends TimestampableEntity {
+@Entity('product_customizations')
+export class ProductCustomization extends TimestampableEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -36,18 +30,12 @@ export class Product extends TimestampableEntity {
   price?: number;
 
   @ApiProperty()
-  @Index('index_product_category')
   @Column({
     type: 'enum',
-    enum: ProductCategory,
-    default: ProductCategory.Bicycles,
-    nullable: true,
+    enum: ProductCustomizationType,
+    default: ProductCustomizationType.AditionalFeature,
   })
-  category?: ProductCategory;
-
-  @ApiProperty()
-  @Column({ type: 'enum', enum: ProductStatus, default: ProductStatus.Active })
-  status: ProductStatus;
+  type?: ProductCustomizationType;
 
   @ApiProperty()
   @Column({
@@ -62,12 +50,10 @@ export class Product extends TimestampableEntity {
 
   @ApiProperty()
   @Column({ type: Boolean, default: false })
-  isCustomizable: boolean;
+  isRequired: boolean;
 
-  @OneToMany(
-    () => ProductCustomization,
-    (productCustomization) => productCustomization.product,
-    { cascade: true },
-  )
-  customizations: ProductCustomization[];
+  @ManyToOne(() => Product, (product) => product.customizations, {
+    onDelete: 'CASCADE',
+  })
+  product: Product;
 }

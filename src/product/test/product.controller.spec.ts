@@ -85,12 +85,12 @@ describe('ProductController', () => {
     it('should return a single product', async () => {
       jest.spyOn(service, 'getOne').mockResolvedValue(productDto);
 
-      const response = await controller.getOne(productDto.productId);
+      const response = await controller.getOne(productDto.id);
 
       expect(response).toMatchObject(productDto);
       expect(response).toStrictEqual(productDto);
 
-      expect(service.getOne).toHaveBeenCalledWith(productDto.productId);
+      expect(service.getOne).toHaveBeenCalledWith(productDto.id);
     });
 
     it('should throw NotFoundException if product is not found', async () => {

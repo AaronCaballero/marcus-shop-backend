@@ -6,7 +6,7 @@ export class ProductBuilder {
 
   constructor() {
     this.product = {
-      productId: '9f917bdd-3289-4f53-9de6-96065e7f4a89',
+      id: '9f917bdd-3289-4f53-9de6-96065e7f4a89',
       name: 'Titan bicycle',
       description: 'Titan bicycle description',
       price: 999,
@@ -14,6 +14,7 @@ export class ProductBuilder {
       status: ProductStatus.Active,
       stock: 5,
       isCustomizable: false,
+      customizations: [],
       createdAt: new Date('2008-10-31T00:00:00Z'),
       updatedAt: new Date('2008-10-31T00:00:00Z'),
       deletedAt: undefined,

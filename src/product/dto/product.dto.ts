@@ -4,7 +4,7 @@ import { ProductCategory, ProductStatus } from '../enum/product.enum';
 
 export class ProductDto extends TimestampableDto {
   @ApiProperty({ type: String })
-  productId: string;
+  id: string;
 
   @ApiProperty({ type: String })
   name: string;
