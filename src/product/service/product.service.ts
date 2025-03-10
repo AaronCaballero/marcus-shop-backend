@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProductAdapter } from './adapter/product.adapter';
-import { CreateProductDto } from './dto/create-product.dto';
-import { ProductDto } from './dto/product.dto';
-import { Product } from './entity/product.entity';
+import { ProductAdapter } from '../adapter/product.adapter';
+import { CreateProductDto } from '../dto/create-product.dto';
+import { ProductDto } from '../dto/product.dto';
+import { Product } from '../entity/product.entity';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
-    private readonly productRepository: Repository<Product>,
+    private readonly repository: Repository<Product>,
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<ProductDto> {
-    const product: Product = await this.productRepository.save(
-      this.productRepository.create({
+    const product: Product = await this.repository.save(
+      this.repository.create({
         ...createProductDto,
       }),
     );
@@ -24,12 +24,12 @@ export class ProductService {
   }
 
   async getAll(): Promise<ProductDto[]> {
-    return ProductAdapter.toDtos(await this.productRepository.find());
+    return ProductAdapter.toDtos(await this.repository.find());
   }
 
   async getOne(id: string): Promise<ProductDto> {
     return ProductAdapter.toDto(
-      await this.productRepository.findOneOrFail({
+      await this.repository.findOneOrFail({
         where: {
           id,
         },

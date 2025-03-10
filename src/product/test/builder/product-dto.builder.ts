@@ -14,6 +14,7 @@ export class ProductDtoBuilder {
       status: ProductStatus.Active,
       stock: 5,
       isCustomizable: false,
+      customizations: [],
       createdAt: new Date('2008-10-31T00:00:00Z'),
       updatedAt: new Date('2008-10-31T00:00:00Z'),
     });

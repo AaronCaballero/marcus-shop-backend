@@ -67,7 +67,7 @@ export class Product extends TimestampableEntity {
   @OneToMany(
     () => ProductCustomization,
     (productCustomization) => productCustomization.product,
-    { cascade: true },
+    { cascade: true, lazy: true },
   )
-  customizations: ProductCustomization[];
+  customizations?: ProductCustomization[];
 }

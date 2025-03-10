@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductDto } from '../dto/product.dto';
 import { Product } from '../entity/product.entity';
-import { ProductService } from '../product.service';
+import { ProductService } from '../service/product.service';
 import { CreateProductDtoBuilder } from './builder/create-product-dto.builder';
 import { ProductDtoBuilder } from './builder/product-dto.builder';
 import { ProductBuilder } from './builder/product.builder';

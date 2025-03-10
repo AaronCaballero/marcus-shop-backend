@@ -1,5 +1,6 @@
 import { ProductDto } from '../dto/product.dto';
 import { Product } from '../entity/product.entity';
+import { ProductCustomizationAdapter } from './product-customization.adapter';
 
 export class ProductAdapter {
   static async toDto(product: Product): Promise<ProductDto> {
@@ -12,6 +13,11 @@ export class ProductAdapter {
       status: product.status,
       stock: product.stock,
       isCustomizable: product.isCustomizable,
+      customizations: (await product.customizations)
+        ? await ProductCustomizationAdapter.toDtos(
+            await product.customizations!,
+          )
+        : undefined,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
       deletedAt: product.deletedAt,

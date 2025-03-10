@@ -3,13 +3,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductDto } from '../dto/product.dto';
 import { ProductController } from '../product.controller';
-import { ProductService } from '../product.service';
+import { ProductCustomizationService } from '../service/product-customization.service';
+import { ProductService } from '../service/product.service';
 import { CreateProductDtoBuilder } from './builder/create-product-dto.builder';
 import { ProductDtoBuilder } from './builder/product-dto.builder';
 
 describe('ProductController', () => {
   let controller: ProductController;
   let service: ProductService;
+  let customizationService: ProductCustomizationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -22,6 +24,10 @@ describe('ProductController', () => {
             getAll: jest.fn(),
             getOne: jest.fn(),
           },
+        },
+        {
+          provide: ProductCustomizationService,
+          useValue: {},
         },
       ],
     }).compile();

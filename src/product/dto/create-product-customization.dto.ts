@@ -1,0 +1,29 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { ProductCustomizationType } from '../enum/product-customization.enum';
+
+export class CreateProductCustomizationDto {
+  @ApiProperty({ type: String })
+  name: string;
+
+  @ApiProperty({ required: false })
+  description?: string;
+
+  @ApiProperty({ required: false })
+  price?: number;
+
+  @ApiProperty({
+    enum: ProductCustomizationType,
+    default: ProductCustomizationType.AditionalFeature,
+  })
+  type: ProductCustomizationType;
+
+  @ApiProperty({ type: Number, default: 0 })
+  stock: number;
+
+  @ApiProperty({ type: Boolean, default: false })
+  isRequired: boolean;
+
+  constructor(partial: Partial<CreateProductCustomizationDto>) {
+    Object.assign(this, partial);
+  }
+}
