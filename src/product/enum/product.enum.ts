@@ -1,5 +1,6 @@
 export enum ProductCategory {
   Bicycles = 'bicycles',
+  Other = 'other',
 }
 
 export enum ProductStatus {

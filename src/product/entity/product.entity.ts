@@ -4,11 +4,13 @@ import {
   Column,
   Entity,
   Index,
-  OneToMany,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductCategory, ProductStatus } from '../enum/product.enum';
 import { ProductCustomization } from './product-customization.entity';
+import { ProhibitedCustomization } from './prohibited-customization.entity';
 
 @Entity('products')
 export class Product extends TimestampableEntity {
@@ -64,10 +66,24 @@ export class Product extends TimestampableEntity {
   @Column({ type: Boolean, default: false })
   isCustomizable: boolean;
 
-  @OneToMany(
+  @ManyToMany(
     () => ProductCustomization,
-    (productCustomization) => productCustomization.product,
-    { cascade: true, lazy: true },
+    (customization) => customization.products,
+    { lazy: true },
   )
   customizations?: ProductCustomization[];
+
+  @ManyToMany(
+    () => ProhibitedCustomization,
+    (prohibitedCustomization) => prohibitedCustomization.products,
+  )
+  @JoinTable({
+    name: 'product_prohibited_customizations',
+    joinColumn: { name: 'product_id', referencedColumnName: 'id' },
+    inverseJoinColumn: {
+      name: 'prohibited_customization_id',
+      referencedColumnName: 'id',
+    },
+  })
+  prohibitedCustomizations?: ProhibitedCustomization[];
 }

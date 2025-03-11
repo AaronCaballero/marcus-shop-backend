@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ProductCustomizationType } from '../enum/product-customization.enum';
+import { ProductCategory } from '../enum/product.enum';
 
 export class CreateProductCustomizationDto {
   @ApiProperty({ type: String })
@@ -10,6 +11,9 @@ export class CreateProductCustomizationDto {
 
   @ApiProperty({ required: false })
   price?: number;
+
+  @ApiProperty({ enum: ProductCategory, default: ProductCategory.Bicycles })
+  category: ProductCategory;
 
   @ApiProperty({
     enum: ProductCustomizationType,

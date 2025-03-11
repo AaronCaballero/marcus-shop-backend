@@ -43,6 +43,22 @@ export class ProductController {
     return this.service.getAll();
   }
 
+  @Post('customization')
+  @ApiOperation({ summary: 'Create a new product customization' })
+  @ApiResponse({
+    status: 201,
+    description: 'The product customization has been successfully created.',
+    type: ProductCustomizationDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  createCustomization(
+    @Body() createProductCustomizationDto: CreateProductCustomizationDto,
+  ): Promise<ProductCustomizationDto> {
+    return this.customizationService.create(
+      createProductCustomizationDto,
+    );
+  }
+
   @Post('prohibited-customization')
   @ApiOperation({ summary: 'Create a new prohibited customization' })
   @ApiResponse({
@@ -99,23 +115,5 @@ export class ProductController {
   @ApiResponse({ status: 400, description: 'Bad request.' })
   getOne(@Param('id') id: string): Promise<ProductDto> {
     return this.service.getOne(id);
-  }
-
-  @Post(':id/customization')
-  @ApiOperation({ summary: 'Create a new product customization' })
-  @ApiResponse({
-    status: 201,
-    description: 'The product customization has been successfully created.',
-    type: ProductCustomizationDto,
-  })
-  @ApiResponse({ status: 400, description: 'Bad request.' })
-  createCustomization(
-    @Param('id') productId: string,
-    @Body() createProductCustomizationDto: CreateProductCustomizationDto,
-  ): Promise<ProductCustomizationDto> {
-    return this.customizationService.create(
-      productId,
-      createProductCustomizationDto,
-    );
   }
 }

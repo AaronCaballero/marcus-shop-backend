@@ -24,7 +24,12 @@ export class ProductService {
   }
 
   async getAll(): Promise<ProductDto[]> {
-    return ProductAdapter.toDtos(await this.repository.find());
+    return ProductAdapter.toDtos(
+      await this.repository.find({
+        relations: ['customizations'],
+      }),
+      true
+    );
   }
 
   async getOne(id: string): Promise<ProductDto> {

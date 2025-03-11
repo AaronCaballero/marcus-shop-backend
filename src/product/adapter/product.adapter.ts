@@ -33,7 +33,9 @@ export class ProductAdapter {
     includeCustomizations: boolean = false,
   ): Promise<ProductDto[]> {
     return Promise.all(
-      products.map(async (product) => await this.toDto(product, includeCustomizations)),
+      products.map(
+        async (product) => await this.toDto(product, includeCustomizations),
+      ),
     );
   }
 }

@@ -3,13 +3,14 @@ import { NumericTransformer, TimestampableEntity } from 'libs/database';
 import {
   Column,
   Entity,
+  Index,
+  JoinTable,
   ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductCustomizationType } from '../enum/product-customization.enum';
+import { ProductCategory } from '../enum/product.enum';
 import { Product } from './product.entity';
-import { ProhibitedCustomization } from './prohibited-customization.entity';
 
 @Entity('product_customizations')
 export class ProductCustomization extends TimestampableEntity {
@@ -37,6 +38,16 @@ export class ProductCustomization extends TimestampableEntity {
   price?: number;
 
   @ApiProperty()
+  @Index('index_product_custmizations_category')
+  @Column({
+    type: 'enum',
+    enum: ProductCategory,
+    default: ProductCategory.Bicycles,
+    nullable: true,
+  })
+  category?: ProductCategory;
+
+  @ApiProperty()
   @Column({
     type: 'enum',
     enum: ProductCustomizationType,
@@ -59,15 +70,11 @@ export class ProductCustomization extends TimestampableEntity {
   @Column({ type: Boolean, default: false })
   isRequired: boolean;
 
-  @ManyToOne(() => Product, (product) => product.customizations, {
-    onDelete: 'CASCADE',
+  @ManyToMany(() => Product, (product) => product.customizations)
+  @JoinTable({
+    name: 'product_customizations_products',
+    joinColumn: { name: 'customization_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'product_id', referencedColumnName: 'id' },
   })
-  product: Product;
-
-  @ManyToMany(
-    () => ProhibitedCustomization,
-    (prohibitedCustomization) => prohibitedCustomization.customizations,
-    { lazy: true }
-  )
-  prohibitedCustomizations: ProhibitedCustomization[];
+  products: Product[];
 }
