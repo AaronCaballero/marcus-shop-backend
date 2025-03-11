@@ -1,3 +1,4 @@
+import { ProductCustomizationDto } from '../dto/product-customization.dto';
 import { ProductDto } from '../dto/product.dto';
 import { Product } from '../entity/product.entity';
 import { ProductCustomizationAdapter } from './product-customization.adapter';
@@ -6,6 +7,7 @@ export class ProductAdapter {
   static async toDto(
     product: Product,
     includeCustomizations: boolean = false,
+    groupedCustomizations?: { [key: string]: ProductCustomizationDto[] } | {},
   ): Promise<ProductDto> {
     return new ProductDto({
       id: product.id,
@@ -22,6 +24,7 @@ export class ProductAdapter {
               await product.customizations!,
             )
           : [],
+      groupedCustomizations: groupedCustomizations,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt,
       deletedAt: product.deletedAt,

@@ -5,12 +5,14 @@ import { ProductAdapter } from '../adapter/product.adapter';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductDto } from '../dto/product.dto';
 import { Product } from '../entity/product.entity';
+import { ProductCustomizationService } from './product-customization.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly repository: Repository<Product>,
+    private readonly customizationService: ProductCustomizationService,
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<ProductDto> {
@@ -24,42 +26,22 @@ export class ProductService {
   }
 
   async getAll(): Promise<ProductDto[]> {
-    return ProductAdapter.toDtos(
-      await this.repository.find({
-        relations: ['customizations'],
-      }),
-      true
-    );
+    return ProductAdapter.toDtos(await this.repository.find());
   }
 
   async getOne(id: string): Promise<ProductDto> {
-    return ProductAdapter.toDto(
-      await this.repository.findOneOrFail({
-        where: {
-          id,
-        },
-      }),
-      true,
-    );
+    const product: Product = await this.repository.findOneOrFail({
+      where: {
+        id,
+      },
+      relations: ['customizations'],
+    });
+
+    const groupedCustomizations =
+      await this.customizationService.groupCustomizationsByType(
+        (await product.customizations) ?? [],
+      );
+
+    return ProductAdapter.toDto(product, true, groupedCustomizations);
   }
-
-  // async getOneWithDetails(id: string): Promise<ProductDto> {
-  //   const product: Product = await this.repository.findOneOrFail({
-  //     where: {
-  //       id,
-  //     },
-  //   });
-
-  //   const customizationsIds = product.customizations
-  //     ? product.customizations.map((customization) => customization.id)
-  //     : undefined;
-
-  //   const prohibitedCustomizations =
-  //     customizationsIds &&
-  //     this.prohibitedCustomizationService.getByCustomizationIds(
-  //       customizationsIds,
-  //     );
-
-  //   return ProductAdapter.toDto(product, true);
-  // }
 }

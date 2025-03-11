@@ -6,6 +6,7 @@ import { CreateProhibitedCustomizationDto } from './dto/create-prohibited-custom
 import { ProductCustomizationDto } from './dto/product-customization.dto';
 import { ProductDto } from './dto/product.dto';
 import { ProhibitedCustomizationDto } from './dto/prohibited-customization.dto';
+import { ProductCategory } from './enum/product.enum';
 import { ProductCustomizationService } from './service/product-customization.service';
 import { ProductService } from './service/product.service';
 import { ProhibitedCustomizationService } from './service/prohibited-customization.service';
@@ -54,9 +55,33 @@ export class ProductController {
   createCustomization(
     @Body() createProductCustomizationDto: CreateProductCustomizationDto,
   ): Promise<ProductCustomizationDto> {
-    return this.customizationService.create(
-      createProductCustomizationDto,
-    );
+    return this.customizationService.create(createProductCustomizationDto);
+  }
+
+  @Get('customization')
+  @ApiOperation({ summary: 'Get all existing products' })
+  @ApiResponse({
+    status: 200,
+    description: 'The products has been successfully gotten.',
+    type: ProductDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  getAllCustomizations(): Promise<ProductCustomizationDto[]> {
+    return this.customizationService.getAll();
+  }
+
+  @Get('customization/:category')
+  @ApiOperation({ summary: 'Get all existing products' })
+  @ApiResponse({
+    status: 200,
+    description: 'The products has been successfully gotten.',
+    type: ProductDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  getCustomizationsByCategory(
+    @Param('category') category: ProductCategory,
+  ): Promise<ProductCustomizationDto[]> {
+    return this.customizationService.getAllByCategory(category);
   }
 
   @Post('prohibited-customization')

@@ -6,6 +6,8 @@ import { CreateProductCustomizationDto } from '../dto/create-product-customizati
 import { CreateProhibitedCustomizationDto } from '../dto/create-prohibited-customization.dto';
 import { ProductCustomizationDto } from '../dto/product-customization.dto';
 import { ProductCustomization } from '../entity/product-customization.entity';
+import { ProductCustomizationType } from '../enum/product-customization.enum';
+import { ProductCategory } from '../enum/product.enum';
 
 @Injectable()
 export class ProductCustomizationService {
@@ -37,11 +39,53 @@ export class ProductCustomizationService {
     );
   }
 
+  async getAll(): Promise<ProductCustomizationDto[]> {
+    return ProductCustomizationAdapter.toDtos(await this.repository.find());
+  }
+
+  async getAllByCategory(
+    category: ProductCategory,
+  ): Promise<ProductCustomizationDto[]> {
+    return ProductCustomizationAdapter.toDtos(
+      await this.repository.find({
+        where: {
+          category: category,
+        },
+      }),
+    );
+  }
+
+  // Prohibited
   async getByIds(
     customizations: CreateProhibitedCustomizationDto,
   ): Promise<ProductCustomizationDto[]> {
     return ProductCustomizationAdapter.toDtos(
       await this.repository.findBy({ id: In(customizations.ids) }),
     );
+  }
+
+  async groupCustomizationsByType(
+    customizations: ProductCustomization[],
+  ): Promise<{ [key: string]: ProductCustomizationDto[] } | {}> {
+    const customizationsByType = {};
+
+    if (customizations && customizations?.length > 0) {
+      for (const customization of customizations) {
+        const type =
+          customization.type || ProductCustomizationType.AditionalFeature;
+
+        if (!customizationsByType[type]) {
+          customizationsByType[type] = [];
+        }
+
+        customizationsByType[type].push(
+          await ProductCustomizationAdapter.toDto(customization),
+        );
+      }
+    }
+
+    console.log(customizationsByType);
+
+    return customizationsByType;
   }
 }

@@ -31,6 +31,9 @@ export class ProductDto extends TimestampableDto {
   @ApiProperty({ isArray: true, type: () => ProductCustomizationDto })
   customizations?: ProductCustomizationDto[];
 
+  @ApiProperty()
+  groupedCustomizations?: { [key: string]: ProductCustomizationDto[] } | {};
+
   constructor(partial: Partial<ProductDto>) {
     super();
     Object.assign(this, partial);
