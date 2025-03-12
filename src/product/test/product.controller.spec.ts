@@ -23,6 +23,7 @@ describe('ProductController', () => {
             create: jest.fn(),
             getAll: jest.fn(),
             getOne: jest.fn(),
+            delete: jest.fn(),
           },
         },
         {

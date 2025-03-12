@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateProductCustomizationDto } from './dto/create-product-customization.dto';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -140,6 +148,15 @@ export class ProductController {
   @ApiResponse({ status: 400, description: 'Bad request.' })
   getOne(@Param('id') id: string): Promise<ProductDto> {
     return this.service.getOne(id);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete a product' })
+  @ApiResponse({ status: 200, description: 'The product has been deleted.' })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  @ApiResponse({ status: 404, description: 'Product not found.' })
+  delete(@Param('id') id: string): Promise<boolean> {
+    return this.service.delete(id);
   }
 
   @Get(':productId/prohibited-customization')
