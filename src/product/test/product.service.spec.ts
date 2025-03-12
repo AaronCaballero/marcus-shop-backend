@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductDto } from '../dto/product.dto';
 import { Product } from '../entity/product.entity';
+import { ProductCustomizationService } from '../service/product-customization.service';
 import { ProductService } from '../service/product.service';
 import { CreateProductDtoBuilder } from './builder/create-product-dto.builder';
 import { ProductDtoBuilder } from './builder/product-dto.builder';
@@ -26,6 +27,10 @@ describe('ProductService', () => {
             create: jest.fn(),
             save: jest.fn(),
           },
+        },
+        {
+          provide: ProductCustomizationService,
+          useValue: { groupCustomizationsByType: jest.fn() },
         },
       ],
     }).compile();
@@ -125,6 +130,7 @@ describe('ProductService', () => {
 
       expect(repository.findOneOrFail).toHaveBeenCalledWith({
         where: { id: product.id },
+        relations: ['customizations'],
       });
     });
 
@@ -137,6 +143,7 @@ describe('ProductService', () => {
 
       expect(repository.findOneOrFail).toHaveBeenCalledWith({
         where: { id: '-' },
+        relations: ['customizations'],
       });
     });
   });
