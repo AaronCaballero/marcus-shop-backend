@@ -39,9 +39,7 @@ export class SeedDataBase1741948800000 implements MigrationInterface {
       ('Large Size', 'Large bicycle size', 0.00, 100, 'bicycles', 'size', true),
       ('Steel Material', 'Steel frame for durability', 80.00, 50, 'bicycles', 'material', false),
       ('Aluminum Material', 'Lightweight aluminum frame', 150.00, 0, 'bicycles', 'material', false),
-      ('Carbon Material', 'Ultra-light carbon fiber frame', 300.00, 20, 'bicycles', 'material', false),
-      ('Bottle Holder', 'Frame-mounted bottle holder', 15.00, 100, 'bicycles', 'aditional_feature', false),
-      ('LED Lights', 'Integrated LED safety lights', 50.00, 80, 'bicycles', 'aditional_feature', false);
+      ('Carbon Material', 'Ultra-light carbon fiber frame', 300.00, 20, 'bicycles', 'material', false);
     `);
 
     await queryRunner.query(`
@@ -81,10 +79,6 @@ export class SeedDataBase1741948800000 implements MigrationInterface {
       SELECT id, (SELECT id FROM product_customizations WHERE name = 'Aluminum Material') FROM products WHERE name = 'Bicycle Model A'
       UNION ALL
       SELECT id, (SELECT id FROM product_customizations WHERE name = 'Carbon Material') FROM products WHERE name = 'Bicycle Model A'
-      UNION ALL
-      SELECT id, (SELECT id FROM product_customizations WHERE name = 'Bottle Holder') FROM products WHERE name = 'Bicycle Model A'
-      UNION ALL
-      SELECT id, (SELECT id FROM product_customizations WHERE name = 'LED Lights') FROM products WHERE name = 'Bicycle Model A'
       UNION ALL
       SELECT id, (SELECT id FROM product_customizations WHERE name = 'Glossy Finish') FROM products WHERE name = 'Bicycle Model B'
       UNION ALL

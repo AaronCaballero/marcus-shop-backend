@@ -6,7 +6,6 @@ import { CreateProductCustomizationDto } from '../dto/create-product-customizati
 import { CreateProhibitedCustomizationDto } from '../dto/create-prohibited-customization.dto';
 import { ProductCustomizationDto } from '../dto/product-customization.dto';
 import { ProductCustomization } from '../entity/product-customization.entity';
-import { ProductCustomizationType } from '../enum/product-customization.enum';
 import { ProductCategory } from '../enum/product.enum';
 
 @Injectable()
@@ -71,8 +70,7 @@ export class ProductCustomizationService {
 
     if (customizations && customizations?.length > 0) {
       for (const customization of customizations) {
-        const type =
-          customization.type || ProductCustomizationType.AditionalFeature;
+        const type = customization.type!;
 
         if (!customizationsByType[type]) {
           customizationsByType[type] = [];

@@ -17,7 +17,6 @@ export class CreateProductCustomizationDto {
 
   @ApiProperty({
     enum: ProductCustomizationType,
-    default: ProductCustomizationType.AditionalFeature,
   })
   type: ProductCustomizationType;
 

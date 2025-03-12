@@ -51,7 +51,6 @@ export class ProductCustomization extends TimestampableEntity {
   @Column({
     type: 'enum',
     enum: ProductCustomizationType,
-    default: ProductCustomizationType.AditionalFeature,
   })
   type?: ProductCustomizationType;
 
