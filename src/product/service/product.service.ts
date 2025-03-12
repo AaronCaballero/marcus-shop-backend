@@ -44,4 +44,26 @@ export class ProductService {
 
     return ProductAdapter.toDto(product, true, groupedCustomizations);
   }
+
+  // Function to validate product prohibited customizations before creating an order
+  async areValidProductCustomizations(
+    productId: string,
+    customizationIds: string[],
+  ): Promise<boolean> {
+    const result = await this.repository.query(
+      `
+      SELECT pcc.prohibited_customization_id
+      FROM product_prohibited_customizations pcp
+      JOIN prohibited_customizations_combinations pcc 
+      ON pcp.prohibited_customization_id = pcc.prohibited_customization_id
+      WHERE pcp.product_id = $1
+      AND pcc.customization_id = ANY($2)
+      GROUP BY pcc.prohibited_customization_id
+      HAVING COUNT(DISTINCT pcc.customization_id) > 1;
+      `,
+      [productId, customizationIds],
+    );
+
+    return result.map((row) => row.prohibited_customization_id).length === 0;
+  }
 }

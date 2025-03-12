@@ -84,8 +84,6 @@ export class ProductCustomizationService {
       }
     }
 
-    console.log(customizationsByType);
-
     return customizationsByType;
   }
 }
