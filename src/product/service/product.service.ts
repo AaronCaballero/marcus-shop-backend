@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProductAdapter } from '../adapter/product.adapter';
@@ -43,6 +43,34 @@ export class ProductService {
       );
 
     return ProductAdapter.toDto(product, true, groupedCustomizations);
+  }
+
+  async delete(id: string): Promise<boolean> {
+    try {
+      await this.repository.findOneOrFail({ where: { id } });
+
+      await this.repository.manager.transaction(async (manager) => {
+        await manager
+          .createQueryBuilder()
+          .delete()
+          .from('product_customizations_products')
+          .where('product_id = :id', { id })
+          .execute();
+
+        await manager
+          .createQueryBuilder()
+          .delete()
+          .from('product_prohibited_customizations')
+          .where('product_id = :id', { id })
+          .execute();
+
+        await manager.delete(Product, id);
+      });
+
+      return true;
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
   // Function to validate product prohibited customizations before creating an order
