@@ -141,4 +141,18 @@ export class ProductController {
   getOne(@Param('id') id: string): Promise<ProductDto> {
     return this.service.getOne(id);
   }
+
+  @Get(':productId/prohibited-customization')
+  @ApiOperation({ summary: 'Get prohibited customizations by product' })
+  @ApiResponse({
+    status: 200,
+    description: 'The prohibited customizations has been successfully gotten.',
+    type: ProhibitedCustomizationDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  getProhibitedCustomizationsByProduct(
+    @Param('productId') productId: string,
+  ): Promise<ProhibitedCustomizationDto[]> {
+    return this.prohibitedCustomizationService.getAllByProduct(productId);
+  }
 }

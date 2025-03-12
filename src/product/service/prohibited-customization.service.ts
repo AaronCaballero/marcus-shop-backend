@@ -44,7 +44,6 @@ export class ProhibitedCustomizationService {
       await this.repository.find({
         relations: ['customizations'],
       }),
-      true,
     );
   }
 
@@ -63,7 +62,22 @@ export class ProhibitedCustomizationService {
           },
         },
       }),
-      true
+      true,
+    );
+  }
+
+  async getAllByProduct(
+    productId: string,
+  ): Promise<ProhibitedCustomizationDto[]> {
+    return ProhibitedCustomizationAdapter.toDtos(
+      await this.repository.find({
+        relations: ['customizations', 'products'],
+        where: {
+          products: {
+            id: productId,
+          },
+        },
+      }),
     );
   }
 

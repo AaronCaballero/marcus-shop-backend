@@ -16,7 +16,7 @@ export class ProhibitedCustomizationAdapter {
             )
           : [],
       customizationIds:
-        includeCustomizations && (await prohibited.customizations)
+        (await prohibited.customizations)
           ? prohibited.customizations.map((customization) => customization.id)
           : [],
       createdAt: prohibited.createdAt,
