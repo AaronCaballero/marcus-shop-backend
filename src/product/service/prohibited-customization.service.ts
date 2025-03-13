@@ -24,7 +24,7 @@ export class ProhibitedCustomizationService {
     customizationIds: CreateProhibitedCustomizationDto,
   ): Promise<ProhibitedCustomizationDto> {
     const customizations: ProductCustomizationDto[] =
-      await this.customizationService.getByIds(customizationIds);
+      await this.customizationService.getAllByIds(customizationIds);
 
     if (customizations.length !== customizationIds.ids.length) {
       throw new NotFoundException('Some customizations not found');

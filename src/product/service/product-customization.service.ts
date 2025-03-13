@@ -58,12 +58,11 @@ export class ProductCustomizationService {
     { [key: string]: ProductCustomizationDto[] } | {}
   > {
     const customizations: ProductCustomization[] = await this.repository.find();
-    
+
     return this.groupCustomizationsByType(customizations);
   }
 
-  // Prohibited
-  async getByIds(
+  async getAllByIds(
     customizations: CreateProhibitedCustomizationDto,
   ): Promise<ProductCustomizationDto[]> {
     return ProductCustomizationAdapter.toDtos(

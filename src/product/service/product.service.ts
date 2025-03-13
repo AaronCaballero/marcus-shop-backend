@@ -73,6 +73,8 @@ export class ProductService {
     }
   }
 
+  //TODO: Function to validate stock
+
   // Function to validate product prohibited customizations before creating an order
   async areValidProductCustomizations(
     productId: string,
