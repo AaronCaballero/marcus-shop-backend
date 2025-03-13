@@ -67,22 +67,40 @@ export class ProductController {
   }
 
   @Get('customization')
-  @ApiOperation({ summary: 'Get all existing products' })
+  @ApiOperation({ summary: 'Get all existing product customizations' })
   @ApiResponse({
     status: 200,
-    description: 'The products has been successfully gotten.',
-    type: ProductDto,
+    description: 'The product customizations has been successfully gotten.',
+    type: ProductCustomizationDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })
   getAllCustomizations(): Promise<ProductCustomizationDto[]> {
     return this.customizationService.getAll();
   }
 
-  @Get('customization/:category')
-  @ApiOperation({ summary: 'Get all existing products' })
+  @Get('customization/grouped')
+  @ApiOperation({
+    summary: 'Get all existing product customizations grouped by type',
+  })
   @ApiResponse({
     status: 200,
-    description: 'The products has been successfully gotten.',
+    description: 'The product customizations has been successfully gotten.',
+    type: ProductCustomizationDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  getGroupedCustomizations(): Promise<
+    { [key: string]: ProductCustomizationDto[] } | {}
+  > {
+    return this.customizationService.getGroupedCustomizations();
+  }
+
+  @Get('customization/:category')
+  @ApiOperation({
+    summary: 'Get all existing product customizations by category',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The product customizations has been successfully gotten.',
     type: ProductDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })

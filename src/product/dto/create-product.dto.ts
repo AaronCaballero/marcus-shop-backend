@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ProductCategory, ProductStatus } from '../enum/product.enum';
+import { ProductCustomizationDto } from './product-customization.dto';
 
 export class CreateProductDto {
   @ApiProperty({ type: String })
@@ -22,6 +23,9 @@ export class CreateProductDto {
 
   @ApiProperty({ type: Boolean, default: false })
   isCustomizable: boolean;
+
+  @ApiProperty({ isArray: true, type: () => ProductCustomizationDto })
+  customizations?: ProductCustomizationDto[];
 
   constructor(partial: Partial<CreateProductDto>) {
     Object.assign(this, partial);

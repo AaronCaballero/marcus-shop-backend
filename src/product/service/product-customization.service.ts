@@ -54,6 +54,14 @@ export class ProductCustomizationService {
     );
   }
 
+  async getGroupedCustomizations(): Promise<
+    { [key: string]: ProductCustomizationDto[] } | {}
+  > {
+    const customizations: ProductCustomization[] = await this.repository.find();
+    
+    return this.groupCustomizationsByType(customizations);
+  }
+
   // Prohibited
   async getByIds(
     customizations: CreateProhibitedCustomizationDto,
