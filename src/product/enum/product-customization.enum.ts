@@ -8,3 +8,9 @@ export enum ProductCustomizationType {
   Size = 'size',
   Material = 'material',
 }
+
+export enum ProductCustomizationStatus {
+  Active = 'active',
+  Discontinued = 'discontinued',
+  TemporarilyOutOfStock = 'temporarily_out_of_stock',
+}

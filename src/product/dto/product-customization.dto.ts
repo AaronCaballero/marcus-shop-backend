@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { TimestampableDto } from 'libs/database/dto/timestampable.dto';
-import { ProductCustomizationType } from '../enum/product-customization.enum';
+import {
+  ProductCustomizationStatus,
+  ProductCustomizationType,
+} from '../enum/product-customization.enum';
 import { ProductCategory } from '../enum/product.enum';
 
 export class ProductCustomizationDto extends TimestampableDto {
@@ -21,6 +24,9 @@ export class ProductCustomizationDto extends TimestampableDto {
 
   @ApiProperty({ enum: ProductCustomizationType })
   type: ProductCustomizationType;
+
+  @ApiProperty({ enum: ProductCustomizationStatus })
+  status: ProductCustomizationStatus;
 
   @ApiProperty({ type: Number, default: 0 })
   stock: number;

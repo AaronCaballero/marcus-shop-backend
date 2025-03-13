@@ -8,7 +8,10 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ProductCustomizationType } from '../enum/product-customization.enum';
+import {
+  ProductCustomizationStatus,
+  ProductCustomizationType,
+} from '../enum/product-customization.enum';
 import { ProductCategory } from '../enum/product.enum';
 import { Product } from './product.entity';
 
@@ -53,6 +56,14 @@ export class ProductCustomization extends TimestampableEntity {
     enum: ProductCustomizationType,
   })
   type?: ProductCustomizationType;
+
+  @ApiProperty()
+  @Column({
+    type: 'enum',
+    enum: ProductCustomizationStatus,
+    default: ProductCustomizationStatus.Active,
+  })
+  status?: ProductCustomizationStatus;
 
   @ApiProperty()
   @Column({

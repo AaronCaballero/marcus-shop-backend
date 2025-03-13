@@ -5,6 +5,7 @@ import { ProductCustomizationAdapter } from '../adapter/product-customization.ad
 import { CreateProductCustomizationDto } from '../dto/create-product-customization.dto';
 import { CreateProhibitedCustomizationDto } from '../dto/create-prohibited-customization.dto';
 import { ProductCustomizationDto } from '../dto/product-customization.dto';
+import { UpdateProductCustomizationDto } from '../dto/update-product-customization.dto';
 import { ProductCustomization } from '../entity/product-customization.entity';
 import { ProductCategory } from '../enum/product.enum';
 
@@ -90,5 +91,17 @@ export class ProductCustomizationService {
     }
 
     return customizationsByType;
+  }
+
+  async updateCustomization(
+    customizationId: string,
+    updateCustomizationDto: UpdateProductCustomizationDto,
+  ): Promise<ProductCustomizationDto> {
+    await this.repository.update(
+      { id: customizationId },
+      { ...updateCustomizationDto },
+    );
+
+    return this.getOne(customizationId);
   }
 }

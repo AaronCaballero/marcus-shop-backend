@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Query,
 } from '@nestjs/common';
@@ -18,6 +19,8 @@ import { ProductCategory } from './enum/product.enum';
 import { ProductCustomizationService } from './service/product-customization.service';
 import { ProductService } from './service/product.service';
 import { ProhibitedCustomizationService } from './service/prohibited-customization.service';
+import { Product } from './entity/product.entity';
+import { UpdateProductCustomizationDto } from './dto/update-product-customization.dto';
 
 @ApiTags('product')
 @Controller('product')
@@ -92,6 +95,27 @@ export class ProductController {
     { [key: string]: ProductCustomizationDto[] } | {}
   > {
     return this.customizationService.getGroupedCustomizations();
+  }
+
+  @Patch('customization/:customizationId')
+  @ApiOperation({
+    summary: 'Update product customization',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'The product customization has been successfully updated.',
+    type: ProductCustomizationDto,
+  })
+  @ApiResponse({ status: 400, description: 'Bad request.' })
+  @ApiResponse({ status: 404, description: 'Product customization not found.' })
+  updateCustomization(
+    @Param('customizationId') customizationId: string,
+    @Body() updateCustomizationDto: UpdateProductCustomizationDto,
+  ): Promise<ProductCustomizationDto> {
+    return this.customizationService.updateCustomization(
+      customizationId,
+      updateCustomizationDto,
+    );
   }
 
   @Get('customization/:category')

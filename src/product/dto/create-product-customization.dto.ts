@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { ProductCustomizationType } from '../enum/product-customization.enum';
+import {
+  ProductCustomizationStatus,
+  ProductCustomizationType,
+} from '../enum/product-customization.enum';
 import { ProductCategory } from '../enum/product.enum';
 
 export class CreateProductCustomizationDto {
@@ -19,6 +22,12 @@ export class CreateProductCustomizationDto {
     enum: ProductCustomizationType,
   })
   type: ProductCustomizationType;
+
+  @ApiProperty({
+    enum: ProductCustomizationStatus,
+    default: ProductCustomizationStatus.Active,
+  })
+  status: ProductCustomizationStatus;
 
   @ApiProperty({ type: Number, default: 0 })
   stock: number;

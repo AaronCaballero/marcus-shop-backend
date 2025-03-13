@@ -11,6 +11,7 @@ export class ProductCustomizationAdapter {
       description: customization.description,
       price: customization.price,
       type: customization.type,
+      status: customization.status,
       stock: customization.stock,
       isRequired: customization.isRequired,
       createdAt: customization.createdAt,
