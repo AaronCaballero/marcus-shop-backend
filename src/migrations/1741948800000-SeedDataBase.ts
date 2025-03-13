@@ -22,12 +22,12 @@ export class SeedDataBase1741948800000 implements MigrationInterface {
     await queryRunner.query(`
       INSERT INTO product_customizations (name, description, price, stock, category, type, is_required)
       VALUES 
-      ('Aluminum Frame', 'Lightweight aluminum frame', 100.00, 50, 'bicycles', 'frame_type', false),
+      ('Aluminum Frame', 'Lightweight aluminum frame', 100.00, 2, 'bicycles', 'frame_type', false),
       ('Carbon Fiber Frame', 'High performance carbon fiber frame', 300.00, 30, 'bicycles', 'frame_type', false),
       ('Matte Finish', 'Smooth matte frame finish', 50.00, 100, 'bicycles', 'frame_finish', false),
       ('Glossy Finish', 'Glossy and reflective frame finish', 50.00, 100, 'bicycles', 'frame_finish', false),
       ('Alloy Wheels', 'Durable alloy wheels', 120.00, 40, 'bicycles', 'wheels', false),
-      ('Carbon Wheels', 'Lightweight carbon wheels', 400.00, 20, 'bicycles', 'wheels', false),
+      ('Carbon Wheels', 'Lightweight carbon wheels', 400.00, 3, 'bicycles', 'wheels', false),
       ('Black Rims', 'Stylish black rims', 30.00, 60, 'bicycles', 'rim_color', false),
       ('Silver Rims', 'Classic silver rims', 30.00, 0, 'bicycles', 'rim_color', false),
       ('Steel Chain', 'Standard steel bicycle chain', 20.00, 80, 'bicycles', 'chain', false),
