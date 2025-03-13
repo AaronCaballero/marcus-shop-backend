@@ -35,6 +35,7 @@ With Mau, you can deploy your application in just a few clicks, allowing you to 
 7. Create the Product and endpoints module
 8. Create customizations table and endpoints
 9. Create customizations and endpoints prohibitions table.
+10. Add update product customization endpoint and customization status
 
 
 ## Nest Default License
