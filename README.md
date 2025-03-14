@@ -51,7 +51,7 @@ The next folder is the 'entity', where there are the entities that are used to m
 
 Finally, there is the 'enum' folder, where there are the enums that are used to manage enums of the entities and DTOs.
 
-Morover, there is a 'test' folder, where there are the tests of the services and the controller. I only did a few test to show how it works, but this folder must be improved to cover almost all the functions of the application.
+Moreover, there is a 'test' folder, where there are the tests of the services and the controller. I only did a few test to show how it works, but this folder must be improved to cover almost all the functions of the application.
 
 Mostly all of the funcions of the services are used to manage data between the database and the endpoints, due to it is a simple app that make get and post requests (also patch and delete), but there are also some functions that are used to validate and check some parameters and desired functionalities.
 
