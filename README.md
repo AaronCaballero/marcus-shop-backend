@@ -39,16 +39,15 @@ First of all, I created a 'libs' folder, where I put all the libraries that I us
 On the 'src' folder ('main' folder) I put the main module of the application, and different 'modules' folders, where I put all the modules. Currently, I have two modules, the 'migrations' module, witch is used to create the database and the migrations, and the 'products' module, witch is used to create all the logic of the products.
 
 In the 'produts' module, I have created the 'products.controller' and 'products.module' files, where the controller is the main file of the module, and the module is the file that imports all the dependencies of the module. The controller connects the enpoints with each specific service of the module. This services are split in the three different parts that form this module:
+  - The 'product.service' file, where is the logic and functions to manage the product entity.
+  - The 'product-customization.service' file, where is the logic and functions to manage the product customization entity.
+  - The 'prohibited-customization.service' file, where is the logic and functions to manage the prohibited customization entity.
 
-- The 'product.service' file, where is the logic and functions to manage the product entity.
-- The 'product-customization.service' file, where is the logic and functions to manage the product customization entity.
-- The 'prohibited-customization.service' file, where is the logic and functions to manage the prohibited customization entity.
-
-There are also more folders, startiting with 'adapter', that use a design pattern called 'Adapter' to convert the entities to DTOs and vice versa.
-It follos the 'dto' folder, where there are the objects that are used to manage the data that is sent and received by the endpoints.
-The next folder is the 'entity', where there are the entities that are used to manage the data in the database.
-Finally, there is the 'enum' folder, where there are the enums that are used to manage enums of the entities and DTOs.
-Morover, there is a 'test' folder, where there are the tests of the services and the controller. I only did a few test to show how it works, but this folder must be improved to cover almost all the functions of the application.
+- There are also more folders, startiting with 'adapter', that use a design pattern called 'Adapter' to convert the entities to DTOs and vice versa.
+- It follows the 'dto' folder, where there are the objects that are used to manage the data that is sent and received by the endpoints.
+- The next folder is the 'entity', where there are the entities that are used to manage the data in the database.
+- Finally, there is the 'enum' folder, where there are the enums that are used to manage enums of the entities and DTOs.
+- Morover, there is a 'test' folder, where there are the tests of the services and the controller. I only did a few test to show how it works, but this folder must be improved to cover almost all the functions of the application.
 
 Mostly all of the funcions of the services are used to manage data between the database and the endpoints, due to it is a simple app that make get and post requests (also patch and delete), but there are also some functions that are used to validate and check some parameters and desired functionalities.
 
