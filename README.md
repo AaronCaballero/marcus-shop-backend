@@ -11,7 +11,6 @@ I also use Docker because it is the easiest way to run and deploy the applicatio
 able to create an image that contails all the backend application dependencies and run it in a container. In these dependencies, is also include
 the database, and when the project is compiled, it runs the migrations and creates the database and add some default data.
 
-
 ## Project setup: compile and run the project
 
 With docker installed, run the following command:
@@ -22,13 +21,11 @@ $ docker-compose up -d
 
 The server will be available at http://localhost:3000.
 
-
 ## Run tests
 
 ```bash
 $ npm run test
 ```
-
 
 ## Technical decisions
 
@@ -39,9 +36,10 @@ First of all, I created a 'libs' folder, where I put all the libraries that I us
 On the 'src' folder ('main' folder) I put the main module of the application, and different 'modules' folders, where I put all the modules. Currently, I have two modules, the 'migrations' module, witch is used to create the database and the migrations, and the 'products' module, witch is used to create all the logic of the products.
 
 In the 'produts' module, I have created the 'products.controller' and 'products.module' files, where the controller is the main file of the module, and the module is the file that imports all the dependencies of the module. The controller connects the enpoints with each specific service of the module. This services are split in the three different parts that form this module:
-  - The 'product.service' file, where is the logic and functions to manage the product entity.
-  - The 'product-customization.service' file, where is the logic and functions to manage the product customization entity.
-  - The 'prohibited-customization.service' file, where is the logic and functions to manage the prohibited customization entity.
+
+- The 'product.service' file, where is the logic and functions to manage the product entity.
+- The 'product-customization.service' file, where is the logic and functions to manage the product customization entity.
+- The 'prohibited-customization.service' file, where is the logic and functions to manage the prohibited customization entity.
 
 There are also more folders, startiting with 'adapter', that use a design pattern called 'Adapter' to convert the entities to DTOs and vice versa.
 
@@ -57,7 +55,6 @@ Mostly all of the funcions of the services are used to manage data between the d
 
 Moreover, I also created a function to validate the prohibited customizations of a product before creating an order, but for now, it is not used due to there are not 'orders' implemented in the project.
 
-
 ## Backend Guideline
 
 1. Create NestJS Project
@@ -72,6 +69,14 @@ Moreover, I also created a function to validate the prohibited customizations of
 10. Update product customization endpoint and customization status
 11. Create a migration to seed the database
 
+## Improvements
+
+- Implement a cache system
+- Implement pagination and sorting
+- Add more tests to cover all the functions
+- Add authentication and authorization to manage the users and access to the endpoints
+- Split the project (when it becomes too big) in microservices
+- Scale the database
 
 ## Nest Default License
 
