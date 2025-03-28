@@ -68,6 +68,7 @@ Moreover, I also created a function to validate the prohibited customizations of
 9. Create Prohibitions entity and endpoints
 10. Update product customization endpoint and customization status
 11. Create a migration to seed the database
+12. Add class-validator
 
 ## Improvements
 
