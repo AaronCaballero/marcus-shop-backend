@@ -133,6 +133,7 @@ export class ProductController {
     return this.customizationService.getAllByCategory(category);
   }
 
+  //TODO: create by productId
   @Post('prohibited-customization')
   @ApiOperation({ summary: 'Create a new prohibited customization' })
   @ApiResponse({

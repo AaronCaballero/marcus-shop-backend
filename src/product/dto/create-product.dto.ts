@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { ProductCategory, ProductStatus } from '../enum/product.enum';
 import { ProductCustomizationDto } from './product-customization.dto';
 
@@ -8,6 +8,7 @@ export class CreateProductDto {
   @ApiProperty({ type: String })
   name: string;
 
+  @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
   description?: string;
@@ -24,16 +25,20 @@ export class CreateProductDto {
   category?: ProductCategory;
 
   @IsEnum(ProductStatus)
+  @IsOptional()
   @ApiProperty({ enum: ProductStatus, default: ProductStatus.Active })
-  status: ProductStatus;
+  status?: ProductStatus;
 
   @IsNumber()
   @Min(0, { message: 'The minimum stock is 0' })
+  @IsOptional()
   @ApiProperty({ type: Number, default: 0 })
-  stock: number;
+  stock?: number;
 
+  @IsBoolean()
+  @IsOptional()
   @ApiProperty({ type: Boolean, default: false })
-  isCustomizable: boolean;
+  isCustomizable?: boolean;
 
   @IsOptional()
   @ApiProperty({ isArray: true, type: () => ProductCustomizationDto })
