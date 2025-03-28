@@ -15,12 +15,11 @@ import { CreateProhibitedCustomizationDto } from './dto/create-prohibited-custom
 import { ProductCustomizationDto } from './dto/product-customization.dto';
 import { ProductDto } from './dto/product.dto';
 import { ProhibitedCustomizationDto } from './dto/prohibited-customization.dto';
+import { UpdateProductCustomizationDto } from './dto/update-product-customization.dto';
 import { ProductCategory } from './enum/product.enum';
 import { ProductCustomizationService } from './service/product-customization.service';
 import { ProductService } from './service/product.service';
 import { ProhibitedCustomizationService } from './service/prohibited-customization.service';
-import { Product } from './entity/product.entity';
-import { UpdateProductCustomizationDto } from './dto/update-product-customization.dto';
 
 @ApiTags('product')
 @Controller('product')
