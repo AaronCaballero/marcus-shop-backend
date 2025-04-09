@@ -1,18 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
+import {
+  CustomizationsByTypeProcessedEvent,
+  ProductFetchedEvent,
+} from 'libs/event-emitter/events/product.event';
 import { Repository } from 'typeorm';
 import { ProductAdapter } from '../adapter/product.adapter';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductDto } from '../dto/product.dto';
+import { ProductCustomization } from '../entity/product-customization.entity';
 import { Product } from '../entity/product.entity';
-import { ProductCustomizationService } from './product-customization.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(Product)
     private readonly repository: Repository<Product>,
-    private readonly customizationService: ProductCustomizationService,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async create(createProductDto: CreateProductDto): Promise<ProductDto> {
@@ -37,10 +42,12 @@ export class ProductService {
       relations: ['customizations'],
     });
 
-    const groupedCustomizations =
-      await this.customizationService.groupCustomizationsByType(
-        (await product.customizations) ?? [],
-      );
+    const customizations: ProductCustomization[] | undefined =
+      await product.customizations;
+
+    const groupedCustomizations = customizations
+      ? await this.getGroupedCustomizations(id, customizations ?? [])
+      : [];
 
     return ProductAdapter.toDto(product, true, groupedCustomizations);
   }
@@ -71,6 +78,35 @@ export class ProductService {
     } catch (error) {
       throw new NotFoundException();
     }
+  }
+
+  private async getGroupedCustomizations(
+    productId: string,
+    customizations: ProductCustomization[],
+  ): Promise<any> {
+    return new Promise<any>((resolve) => {
+      const listener = (event: CustomizationsByTypeProcessedEvent) => {
+        if (event.productId === productId) {
+          this.eventEmitter.removeListener(
+            'customizations.processed',
+            listener,
+          );
+          resolve(event.groupedCustomizations);
+        }
+      };
+
+      this.eventEmitter.on('customizations.processed', listener);
+
+      this.eventEmitter.emit(
+        'product.fetched',
+        new ProductFetchedEvent(productId, customizations ?? []),
+      );
+
+      setTimeout(() => {
+        this.eventEmitter.removeListener('customizations.processed', listener);
+        resolve({});
+      }, 5000);
+    });
   }
 
   //TODO: Function to validate stock

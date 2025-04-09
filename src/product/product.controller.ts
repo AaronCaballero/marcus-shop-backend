@@ -188,7 +188,7 @@ export class ProductController {
     type: ProductDto,
   })
   @ApiResponse({ status: 400, description: 'Bad request.' })
-  getOne(@Param('id') id: string): Promise<ProductDto> {
+  async getOne(@Param('id') id: string): Promise<ProductDto> {
     return this.service.getOne(id);
   }
 
