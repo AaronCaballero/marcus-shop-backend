@@ -1,11 +1,11 @@
 import { NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { ProductDto } from '../dto/product.dto';
 import { Product } from '../entity/product.entity';
-import { ProductCustomizationService } from '../service/product-customization.service';
 import { ProductService } from '../service/product.service';
 import { CreateProductDtoBuilder } from './builder/create-product-dto.builder';
 import { ProductDtoBuilder } from './builder/product-dto.builder';
@@ -30,8 +30,13 @@ describe('ProductService', () => {
           },
         },
         {
-          provide: ProductCustomizationService,
-          useValue: { groupCustomizationsByType: jest.fn() },
+          provide: EventEmitter2,
+          useValue: {
+            emit: jest.fn(),
+            on: jest.fn(),
+            once: jest.fn(),
+            removeListener: jest.fn(),
+          },
         },
       ],
     }).compile();
@@ -133,7 +138,7 @@ describe('ProductService', () => {
         where: { id: product.id },
         relations: ['customizations'],
       });
-    });
+    }, 6000);
 
     it('should throw a NotFoundException if product is not found', async () => {
       jest

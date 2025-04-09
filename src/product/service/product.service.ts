@@ -104,7 +104,7 @@ export class ProductService {
 
       setTimeout(() => {
         this.eventEmitter.removeListener('customizations.processed', listener);
-        resolve({});
+        resolve(undefined);
       }, 5000);
     });
   }
